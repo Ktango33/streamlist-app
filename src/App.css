@@ -1,0 +1,89 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+nav {
+  background-color: #333;
+  padding: 10px;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  padding: 0;
+  margin: 0;
+}
+
+nav li {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+.streamlist {
+  padding: 20px;
+}
+
+.input-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.input-form input {
+  padding: 10px;
+  font-size: 16px;
+  flex: 1;
+}
+
+.input-form button {
+  padding: 10px;
+  font-size: 16px;
+  background-color: green;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.item-list {
+  list-style: none;
+  padding: 0;
+}
+
+.item-list li {
+  background: #fff;
+  padding: 10px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.item-list li.completed span {
+  text-decoration: line-through;
+  color: gray;
+}
+
+.icons svg {
+  margin-left: 10px;
+  cursor: pointer;
+  color: #333;
+}
+
+.icons svg:hover {
+  color: green;
+}
