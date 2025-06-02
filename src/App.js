@@ -1,30 +1,80 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { FaHome, FaFilm, FaShoppingCart, FaInfoCircle } from 'react-icons/fa';
-import StreamList from './components/StreamList';
-import Movies from './components/Movies';
-import Cart from './components/Cart';
-import About from './components/About';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Input from "./components/Input";
+import StreamList from "./components/StreamList";
+import Movies from "./components/Movies";
+import "./App.css";
 
 function App() {
+  // Initialize streams from localStorage or empty array
+  const [streams, setStreams] = useState(() => {
+    const saved = localStorage.getItem("streams");
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  // Save streams to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem("streams", JSON.stringify(streams));
+  }, [streams]);
+
+  // Add a new stream
+  const addStream = (text) => {
+    const newStream = { id: Date.now(), text, completed: false };
+    setStreams([...streams, newStream]);
+  };
+
+  // Toggle completed state
+  const toggleComplete = (id) => {
+    setStreams(
+      streams.map((item) =>
+        item.id === id ? { ...item, completed: !item.completed } : item
+      )
+    );
+  };
+
+  // Delete a stream
+  const deleteStream = (id) => {
+    setStreams(streams.filter((item) => item.id !== id));
+  };
+
+  // Edit a stream's text
+  const editStream = (id, newText) => {
+    setStreams(
+      streams.map((item) => (item.id === id ? { ...item, text: newText } : item))
+    );
+  };
+
   return (
     <Router>
-      <div className="app">
+      <div className="App">
         <nav className="navbar">
           <ul className="nav-links">
-            <li><FaHome className="nav-icon" /> <Link to="/">StreamList</Link></li>
-            <li><FaFilm className="nav-icon" /> <Link to="/movies">Movies</Link></li>
-            <li><FaShoppingCart className="nav-icon" /> <Link to="/cart">Cart</Link></li>
-            <li><FaInfoCircle className="nav-icon" /> <Link to="/about">About</Link></li>
+            <li>
+              <Link to="/">StreamList</Link>
+            </li>
+            <li>
+              <Link to="/movies">Movies</Link>
+            </li>
           </ul>
         </nav>
+
         <main className="main-content">
           <Routes>
-            <Route path="/" element={<StreamList />} />
+            <Route
+              path="/"
+              element={
+                <>
+                  <Input onAdd={addStream} />
+                  <StreamList
+                    streams={streams}
+                    toggleComplete={toggleComplete}
+                    deleteStream={deleteStream}
+                    editStream={editStream}
+                  />
+                </>
+              }
+            />
             <Route path="/movies" element={<Movies />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/about" element={<About />} />
           </Routes>
         </main>
       </div>
