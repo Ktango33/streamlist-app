@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FaCheckCircle, FaEdit, FaTrash } from 'react-icons/fa';
+import PropTypes from 'prop-types'; // Import PropTypes
 
 function StreamList({ streams, toggleComplete, deleteStream, editStream }) {
   const [editingId, setEditingId] = useState(null);
@@ -49,5 +50,19 @@ function StreamList({ streams, toggleComplete, deleteStream, editStream }) {
     </div>
   );
 }
+
+// Add PropTypes for prop validation
+StreamList.propTypes = {
+  streams: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+      text: PropTypes.string.isRequired,
+      completed: PropTypes.bool.isRequired,
+    })
+  ).isRequired,
+  toggleComplete: PropTypes.func.isRequired,
+  deleteStream: PropTypes.func.isRequired,
+  editStream: PropTypes.func.isRequired,
+};
 
 export default StreamList;
